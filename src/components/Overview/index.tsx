@@ -16,7 +16,6 @@ export const Overview = ({ overviewStocksData }: OverviewProps) => {
 
     const todayDate = new Date().toLocaleDateString();
 
-    console.log(topGain);
     return (
         <>
             <h3 className="mt-10 text-2xl font-bold text-primary md:text-4xl">
