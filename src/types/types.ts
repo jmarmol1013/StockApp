@@ -1,9 +1,9 @@
 interface OverviewStock {
-    StockSymbol: string;
-    CurrentPrice: number;
-    Volume: number;
-    Change: number;
-    Date: string;
+    stockSymbol: string;
+    currentPrice: number;
+    volume: number;
+    change: number;
+    date: string;
 }
 
 type OverviewStocks = OverviewStock[];
