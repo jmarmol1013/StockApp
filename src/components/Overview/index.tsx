@@ -37,7 +37,7 @@ export const Overview = ({ overviewStocksData }: OverviewProps) => {
                         <CardTitle className="text-2xl text-secondary">Top Gain Stock</CardTitle>
                     </CardHeader>
                     <CardContent className="text-center">
-                        <p className="text-2xl text-green-600">{topGain.change}</p>
+                        <p className="text-2xl text-green-600">${topGain.change}</p>
                         <p className="text-xl text-black">{topGain.stockSymbol}</p>
                     </CardContent>
                 </Card>
@@ -46,7 +46,7 @@ export const Overview = ({ overviewStocksData }: OverviewProps) => {
                         <CardTitle className="text-2xl text-secondary">Top Loser Stock</CardTitle>
                     </CardHeader>
                     <CardContent className="text-center">
-                        <p className="text-2xl text-red-600">{topLosers.change}</p>
+                        <p className="text-2xl text-red-600">${topLosers.change}</p>
                         <p className="text-xl text-black">{topLosers.stockSymbol}</p>
                     </CardContent>
                 </Card>
@@ -55,7 +55,7 @@ export const Overview = ({ overviewStocksData }: OverviewProps) => {
                         <CardTitle className="text-2xl text-secondary">Top Volume Stock</CardTitle>
                     </CardHeader>
                     <CardContent className="text-center">
-                        <p className="text-2xl text-tertiary">{highVolume.volume}</p>
+                        <p className="text-2xl text-tertiary">{highVolume.volume}M</p>
                         <p className="text-xl text-black">{highVolume.stockSymbol}</p>
                     </CardContent>
                 </Card>
