@@ -7,10 +7,11 @@ import { IconType } from 'react-icons';
 import { FaHome } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 import { IoIosAddCircle } from 'react-icons/io';
-import { AiOutlineStock } from 'react-icons/ai';
-import { usePathname } from 'next/navigation';
-import { MenuIcon, MoonIcon, SearchIcon } from 'lucide-react';
+import { AiOutlineStock, AiOutlineLogout } from 'react-icons/ai'; // Import the LogOut icon
+import { usePathname, useRouter } from 'next/navigation';
+import { MenuIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { parseCookies, destroyCookie } from 'nookies'; // Import nookies to manage cookies
 
 interface NavBarItem {
     name: string;
@@ -26,6 +27,13 @@ interface NavBarItemsProps {
 
 export default function NavBar() {
     const pathName = usePathname();
+    const router = useRouter(); 
+
+    const handleSignOut = () => {
+        destroyCookie(null, 'userEmail');
+        destroyCookie(null, 'authToken'); 
+        router.push('/login');
+    };
 
     const navBarItems: NavBarItem[] = [
         {
@@ -64,6 +72,14 @@ export default function NavBar() {
                         navBarItems={navBarItems}
                         className="flex items-center gap-x-2"
                     />
+                    <Button
+                        onClick={handleSignOut}
+                        variant="ghost"
+                        className="text-white font-medium flex items-center gap-2 hover:bg-transparent"
+                    >
+                        <AiOutlineLogout className="h-5 w-5" /> 
+                        Sign Out
+                    </Button>
                 </nav>
                 <div className="flex items-center gap-4 lg:hidden">
                     <Sheet>
