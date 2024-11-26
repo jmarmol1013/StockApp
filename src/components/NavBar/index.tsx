@@ -7,59 +7,73 @@ import { IconType } from 'react-icons';
 import { FaHome } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 import { IoIosAddCircle } from 'react-icons/io';
-import { AiOutlineStock, AiOutlineLogout } from 'react-icons/ai'; // Import the LogOut icon
+import { AiOutlineStock, AiOutlineLogout, AiOutlineLogin } from 'react-icons/ai'; // Import the LogOut icon
 import { usePathname, useRouter } from 'next/navigation';
 import { MenuIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { parseCookies, destroyCookie } from 'nookies'; // Import nookies to manage cookies
+import { useEffect, useState } from 'react';
 
 interface NavBarItem {
     name: string;
     path: string;
     Icon: IconType;
+    loginRequired: boolean;
 }
 
 interface NavBarItemsProps {
     path: string;
     navBarItems: NavBarItem[];
     className: string;
+    email: string | null;
 }
 
 export default function NavBar() {
+    const [email, setEmail] = useState<string | null>(null);
     const pathName = usePathname();
-    const router = useRouter(); 
+    const router = useRouter();
 
     const handleSignOut = () => {
         destroyCookie(null, 'userEmail');
-        destroyCookie(null, 'authToken'); 
+        destroyCookie(null, 'authToken');
         router.push('/login');
     };
+
+    useEffect(() => {
+        const cookies = parseCookies();
+        const storedEmail = cookies.userEmail || null;
+        setEmail(storedEmail);
+    }, []);
 
     const navBarItems: NavBarItem[] = [
         {
             name: 'Dashboard',
             path: '/dashboard',
             Icon: FaHome,
+            loginRequired: false,
         },
         {
             name: 'Stocks',
             path: '/stocks',
             Icon: AiOutlineStock,
+            loginRequired: false,
         },
         {
             name: 'Favorites',
             path: '/favorites',
             Icon: FaHeart,
+            loginRequired: true,
         },
         {
             name: 'Manage stocks',
             path: '/manage',
             Icon: IoIosAddCircle,
+            loginRequired: false,
         },
     ];
 
     return (
-        <header className="bg-primary sticky top-0 z-50 w-full items-center border-b py-2 text-white">
+        <header className="sticky top-0 z-50 w-full items-center border-b bg-primary py-2 text-white">
             <div className="max-w-8xl container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
                 <Link href="/dashboard" className="items-center" prefetch={false}>
                     <span className="text-xl font-bold lg:text-3xl">Stockify</span>
@@ -71,15 +85,28 @@ export default function NavBar() {
                         path={pathName}
                         navBarItems={navBarItems}
                         className="flex items-center gap-x-2"
+                        email={email}
                     />
-                    <Button
-                        onClick={handleSignOut}
-                        variant="ghost"
-                        className="text-white font-medium flex items-center gap-2 hover:bg-transparent"
-                    >
-                        <AiOutlineLogout className="h-5 w-5" /> 
-                        Sign Out
-                    </Button>
+                    {email != null ? (
+                        <Button
+                            onClick={handleSignOut}
+                            variant="ghost"
+                            className="flex items-center gap-2 font-medium text-white hover:bg-transparent"
+                        >
+                            <AiOutlineLogout className="h-5 w-5" />
+                            Sign Out
+                        </Button>
+                    ) : (
+                        <Link href={'/login'}>
+                            <Button
+                                variant="ghost"
+                                className="flex items-center gap-2 font-medium text-white hover:bg-transparent"
+                            >
+                                <AiOutlineLogin className="h-5 w-5" />
+                                Login
+                            </Button>
+                        </Link>
+                    )}
                 </nav>
                 <div className="flex items-center gap-4 lg:hidden">
                     <Sheet>
@@ -95,6 +122,7 @@ export default function NavBar() {
                                     path={pathName}
                                     navBarItems={navBarItems}
                                     className="flex items-center gap-x-4 text-lg font-medium text-white"
+                                    email={email}
                                 />
                             </div>
                         </SheetContent>
@@ -105,10 +133,11 @@ export default function NavBar() {
     );
 }
 
-const NavBarItem = ({ path, navBarItems, className }: NavBarItemsProps) => {
+const NavBarItem = ({ path, navBarItems, className, email }: NavBarItemsProps) => {
     return (
         <>
             {navBarItems.map((item, index) => {
+                if (item.loginRequired && email == null) return;
                 return (
                     <Link
                         key={index}

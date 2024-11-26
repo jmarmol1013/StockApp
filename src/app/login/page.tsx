@@ -1,9 +1,9 @@
-'use client'; 
+'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { setCookie } from 'nookies'; 
-import Link from 'next/link'; 
+import { setCookie } from 'nookies';
+import Link from 'next/link';
 
 export default function LoginPage() {
     const [username, setUsername] = useState('');
@@ -22,14 +22,14 @@ export default function LoginPage() {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ email: username, password }),
-                }
+                },
             );
-    
+
             if (!response.ok) {
                 const errorData = await response.text();
                 throw new Error(errorData || 'Invalid credentials');
             }
-    
+
             const contentType = response.headers.get('content-type');
             let data;
             if (contentType && contentType.includes('application/json')) {
@@ -37,16 +37,13 @@ export default function LoginPage() {
             } else {
                 data = await response.text();
             }
-    
-            console.log('Login successful:', data);
-    
+
             // Set the user's email in a cookie
             setCookie(null, 'userEmail', username, {
-                maxAge: 30 * 24 * 60 * 60, 
-                path: '/', 
+                maxAge: 30 * 24 * 60 * 60,
+                path: '/',
             });
-    
-            
+
             router.push('/dashboard');
         } catch (err: any) {
             setError(err.message);
@@ -54,13 +51,13 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-quanternary">
-            <div className="w-full max-w-2xl p-12 bg-white rounded-lg shadow-xl">
-                <h1 className="text-4xl font-bold text-center mb-8">Login</h1>
+        <div className="flex min-h-screen items-center justify-center bg-quanternary">
+            <div className="w-full max-w-2xl rounded-lg bg-white p-12 shadow-xl">
+                <h1 className="mb-8 text-center text-4xl font-bold">Login</h1>
                 <form className="mt-6" onSubmit={handleLogin}>
-                    {error && <p className="text-red-500 text-center">{error}</p>}
+                    {error && <p className="text-center text-red-500">{error}</p>}
                     <div className="mb-6">
-                        <label htmlFor="username" className="block text-lg mb-2">
+                        <label htmlFor="username" className="mb-2 block text-lg">
                             Username:
                         </label>
                         <input
@@ -73,12 +70,12 @@ export default function LoginPage() {
                         />
                     </div>
                     <div className="mb-6">
-                        <label htmlFor="password" className="block text-lg mb-2">
+                        <label htmlFor="password" className="mb-2 block text-lg">
                             Password:
                         </label>
                         <input
                             type="password"
-                            id="password" 
+                            id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full rounded border p-4"
@@ -87,14 +84,15 @@ export default function LoginPage() {
                     </div>
                     <button
                         type="submit"
-                        className="w-full rounded bg-primary p-4 text-white text-lg"
+                        className="w-full rounded bg-primary p-4 text-lg text-white"
                     >
                         Login
                     </button>
                 </form>
-                
+
                 <div className="mt-6 text-center">
-                    <p className="text-lg">Don't have an account? <br />
+                    <p className="text-lg">
+                        Don't have an account? <br />
                         <Link href="/register" className="text-blue-500 hover:underline">
                             Register Here
                         </Link>

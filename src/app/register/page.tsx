@@ -1,4 +1,4 @@
-'use client'; 
+'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -27,7 +27,7 @@ export default function RegisterPage() {
                         firstName,
                         lastName,
                     }),
-                }
+                },
             );
 
             if (!response.ok) {
@@ -36,9 +36,7 @@ export default function RegisterPage() {
             }
 
             const data = await response.json();
-            console.log('Registration successful:', data);
 
-            
             router.push('/login');
         } catch (err: any) {
             setError(err.message);
@@ -46,13 +44,13 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-quanternary">
-            <div className="w-full max-w-2xl p-12 bg-white rounded-lg shadow-xl">
-                <h1 className="text-4xl font-bold text-center mb-8">Register</h1>
+        <div className="flex min-h-screen items-center justify-center bg-quanternary">
+            <div className="w-full max-w-2xl rounded-lg bg-white p-12 shadow-xl">
+                <h1 className="mb-8 text-center text-4xl font-bold">Register</h1>
                 <form className="mt-6" onSubmit={handleRegister}>
-                    {error && <p className="text-red-500 text-center">{error}</p>}
+                    {error && <p className="text-center text-red-500">{error}</p>}
                     <div className="mb-6">
-                        <label htmlFor="firstName" className="block text-lg mb-2">
+                        <label htmlFor="firstName" className="mb-2 block text-lg">
                             First Name:
                         </label>
                         <input
@@ -65,7 +63,7 @@ export default function RegisterPage() {
                         />
                     </div>
                     <div className="mb-6">
-                        <label htmlFor="lastName" className="block text-lg mb-2">
+                        <label htmlFor="lastName" className="mb-2 block text-lg">
                             Last Name:
                         </label>
                         <input
@@ -78,7 +76,7 @@ export default function RegisterPage() {
                         />
                     </div>
                     <div className="mb-6">
-                        <label htmlFor="username" className="block text-lg mb-2">
+                        <label htmlFor="username" className="mb-2 block text-lg">
                             Email:
                         </label>
                         <input
@@ -91,7 +89,7 @@ export default function RegisterPage() {
                         />
                     </div>
                     <div className="mb-6">
-                        <label htmlFor="password" className="block text-lg mb-2">
+                        <label htmlFor="password" className="mb-2 block text-lg">
                             Password:
                         </label>
                         <input
@@ -105,7 +103,7 @@ export default function RegisterPage() {
                     </div>
                     <button
                         type="submit"
-                        className="w-full rounded bg-primary p-4 text-white text-lg"
+                        className="w-full rounded bg-primary p-4 text-lg text-white"
                     >
                         Register
                     </button>
