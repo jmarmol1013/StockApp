@@ -37,3 +37,8 @@ type UpdateStock = {
     lowPrice: number;
     volume: number;
 };
+
+interface EditProfile {
+    firstName: string;
+    lastName: string;
+}

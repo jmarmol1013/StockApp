@@ -6,7 +6,7 @@ import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
 import { IconType } from 'react-icons';
 import { FaHome } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
-import { IoIosAddCircle } from 'react-icons/io';
+import { IoIosAddCircle, IoIosPerson } from 'react-icons/io';
 import { AiOutlineStock, AiOutlineLogout, AiOutlineLogin } from 'react-icons/ai'; // Import the LogOut icon
 import { usePathname, useRouter } from 'next/navigation';
 import { MenuIcon } from 'lucide-react';
@@ -69,6 +69,12 @@ export default function NavBar() {
             path: '/manage',
             Icon: IoIosAddCircle,
             loginRequired: false,
+        },
+        {
+            name: 'Profile',
+            path: '/profile',
+            Icon: IoIosPerson,
+            loginRequired: true,
         },
     ];
 

@@ -91,3 +91,29 @@ export async function updateStock(formData: FormData) {
         console.log(err);
     }
 }
+
+export async function editProfile(formData: FormData) {
+    try {
+        const email = formData.get('email');
+        const data: EditProfile = {
+            firstName: formData.get('firstName') as string,
+            lastName: formData.get('lastName') as string,
+        };
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASIC_API_PATH}/Users/${email}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to edit stock');
+        }
+
+        revalidatePath('/profile');
+    } catch (err) {
+        console.log(err);
+    }
+}
