@@ -2,6 +2,7 @@ import Image from 'next/image';
 import stock2 from '../../../../public/stock2.jpg';
 import { Overview } from '@/components/Overview';
 import Link from 'next/link';
+import { HelloSection } from '@/components/HelloSection';
 
 export default async function Page() {
     const responseStocksOverview = await fetch(
@@ -23,7 +24,9 @@ export default async function Page() {
                 <h1 className="text-6xl font-bold">
                     Welcome to <span className="text-primary">Stockify</span>
                 </h1>
+
                 <h2 className="mt-2 text-xl">
+                    <HelloSection />
                     Track, analyze, and stay ahead in the stock market with our comprehensive stock
                     management platform. Whether you're monitoring your investments or exploring new
                     market trends, our tools offer the insights you need to make informed decisions.
