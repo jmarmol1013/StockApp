@@ -1,18 +1,40 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import stock2 from '../../../../public/stock2.jpg';
 import { Overview } from '@/components/Overview';
 import Link from 'next/link';
+import { parseCookies } from 'nookies';
 
-export default async function Page() {
-    const responseStocksOverview = await fetch(
-        `${process.env.NEXT_PUBLIC_BASIC_API_PATH}${process.env.NEXT_PUBLIC_STOCKS_OVERVIEW}`,
-        {
-            cache: 'no-store',
-        },
-    );
+export default function Page() {
+    const [email, setEmail] = useState<string | null>(null);
+    const [data, setData] = useState<OverviewStocks | null>(null);
 
-    const dataStocksOverview = await responseStocksOverview.json();
-    const data: OverviewStocks = await dataStocksOverview.stocksData;
+    useEffect(() => {
+        const cookies = parseCookies();
+        const storedEmail = cookies.userEmail || null;
+        setEmail(storedEmail);
+    }, []);
+
+    useEffect(() => {
+        const fetchStocksOverview = async () => {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BASIC_API_PATH}${process.env.NEXT_PUBLIC_STOCKS_OVERVIEW}`,
+                {
+                    cache: 'no-store',
+                }
+            );
+            const dataStocksOverview = await response.json();
+            setData(dataStocksOverview.stocksData);
+        };
+
+        fetchStocksOverview();
+    }, []); 
+
+    if (!data) {
+        return <div>Loading...</div>; 
+    }
 
     return (
         <div className="min-h-screen bg-quanternary">
@@ -23,11 +45,12 @@ export default async function Page() {
                 <h1 className="text-6xl font-bold">
                     Welcome to <span className="text-primary">Stockify</span>
                 </h1>
-                <h2 className="mt-2 text-xl">
-                    Track, analyze, and stay ahead in the stock market with our comprehensive stock
-                    management platform. Whether you're monitoring your investments or exploring new
-                    market trends, our tools offer the insights you need to make informed decisions.
-                </h2>
+                
+                <h2 className="mt-2 text-xl">Hello, <span className="text-primary">{email}</span>! Track, analyze,
+                    and stay ahead in the stock market with our comprehensive stock management platform. 
+                    Whether you're monitoring your investments or exploring new market trends, our tools offer 
+                    the insights you need to make informed decisions. 
+                </h2>               
                 <Overview overviewStocksData={data} />
                 <h3 className="mt-10 text-2xl font-bold text-primary md:text-4xl">
                     View All Stocks
