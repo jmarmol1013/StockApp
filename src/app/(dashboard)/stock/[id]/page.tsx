@@ -1,3 +1,4 @@
+import { FavoriteBtn } from '@/components/FavoriteBtn';
 import { StockDetails } from '@/components/StockDetails';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -23,9 +24,13 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                         <FaArrowLeft size={18} />
                     </button>
                 </Link>
-                <h1 className="mt-6 text-4xl text-tertiary">
-                    Stock Detail For<span className="font-bold text-tertiary">{id}</span>
-                </h1>
+                <div className="flex justify-between">
+                    <h1 className="mt-6 text-4xl text-tertiary">
+                        Stock Detail For <span className="font-bold text-tertiary">{id}</span>
+                    </h1>
+                    <FavoriteBtn stockSymbol={id} />
+                </div>
+
                 <h2 className="mt-2 text-lg">
                     Use this form to update the stock on the system for date. Please ensure all
                     required fields are completed with accurate information.
